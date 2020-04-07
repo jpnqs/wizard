@@ -55,5 +55,45 @@ function determineShape(pos) {
         }
     }
 
+    // check arrow up 
+    if (pos2.x > pos1.x && (pos2.x - pos1.x) > lineAccurancy) {
+        let center = Math.floor( pos1.x + ( ( pos2.x - pos1.x ) / 2 ) );
+        pos.sort(compareValues("y"));
+        let left = center - 50;
+        let right = center + 50;
+        let low = pos[0];
+        if (low.x > left && low.x < right) {
+            return "arrow up";
+        }
+        let high = pos[pos.length - 1];
+        if (high.x > left && high.x < right) {
+            return "arrow down";
+        }
+    }
+
     return "unkown shape";
 }
+
+function compareValues(key, order = 'asc') {
+    return function innerSort(a, b) {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+        return 0;
+      }
+  
+      const varA = (typeof a[key] === 'string')
+        ? a[key].toUpperCase() : a[key];
+      const varB = (typeof b[key] === 'string')
+        ? b[key].toUpperCase() : b[key];
+  
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (order === 'desc') ? (comparison * -1) : comparison
+      );
+    };
+  }

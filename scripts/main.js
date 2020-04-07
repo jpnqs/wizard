@@ -31,10 +31,11 @@ function draw(ev) {
 
 function mouseUp(ev) {
     mouseDown = false;
+    let oldPositions = [...positions];
     let shape = determineShape(positions);
     
-    redraw(positions, shape == "horizontal line" ? "blue" :  shape == "vertical line" ? "red" : "yellow");
     positions = [];
+    redraw(oldPositions, shape == "horizontal line" ? "blue" :  shape == "vertical line" ? "red" : shape == "arrow up" ? "green" : shape == "arrow down" ? "yellow" : "white");
 
     setTimeout(clear, 200);
 }
