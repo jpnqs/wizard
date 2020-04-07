@@ -1,16 +1,25 @@
 html, body {
     height: 100%;
     width: 100%;
-    background-color: black;
+    background-color: white;
     overflow:hidden;
     margin: 0;
     padding: 0;
 }
 
 span {
-    color: white;
+    color: black;
 }
 
 #magic-wand {
     cursor: pointer;
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-style: solid;
+    border-width: 0.1rem;
+    border-color: lightblue;
 }

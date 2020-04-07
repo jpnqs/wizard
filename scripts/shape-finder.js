@@ -1,38 +1,59 @@
+const lineAccurancy = 50;
+const maxLineFails = 10;
+
 function determineShape(pos) {
 
     if (pos.length == 0) return;
 
+    // get start and end position
     let pos1 = pos[0];
-    
     let pos2 = pos[pos.length - 1];
     
     // check vertical line
-    if (pos2.y > pos1.y && (pos2.y - pos1.y) > 50) {
-        let left = pos1.x - 50;
-        let right = pos1.x + 50;
+    if (pos1.y > pos2.y) {
+        let temp = pos2;
+        pos2 = pos1;
+        pos1 = temp;
+    }
+
+    if (pos2.y > pos1.y && (pos2.y - pos1.y) > lineAccurancy) {
+        let left = pos1.x - lineAccurancy;
+        let right = pos1.x + lineAccurancy;
         if (pos2.x > left && pos2.x < right) {
-            return "vertical line";
+            let fail = 0;
+            pos.forEach(el => {
+                if (!(el.x > left && el.x < right)) {
+                    fail++;
+                }
+            });
+            if (fail < maxLineFails) {
+                return "vertical line";
+            }
         }
     }
 
     // check horizontal line
-    if (pos2.x > pos1.x && (pos2.x - pos1.x) > 50) {
-        let top = pos1.y - 50;
-        let bottom = pos1.y + 50;
+    if (pos1.x > pos2.x) {
+        let temp = pos2;
+        pos2 = pos1;
+        pos1 = temp;
+    }
+
+    if (pos2.x > pos1.x && (pos2.x - pos1.x) > lineAccurancy) {
+        let top = pos1.y - lineAccurancy;
+        let bottom = pos1.y + lineAccurancy;
         if (pos2.y > top && pos2.y < bottom) {
-            return "horizontal line";
+            let fail = 0;
+            pos.forEach(el => {
+                if (!(el.y > top && el.y < bottom)) {
+                    fail++;
+                }
+            });
+            if (fail < maxLineFails) {
+                return "horizontal line";
+            }
         }
     }
 
-    if (checkPosition(pos1.x, 20, pos2.x) && checkPosition(pos1.y, 20, pos2.y)) {
-        return "rectangle";
-    }
-
     return "unkown shape";
-}
-
-function checkPosition(x1, offset, x2) {
-    let bound1 = x1 - offset;
-    let bound2 = x1 + offset;
-    return (x2 > bound1 && x2 < bound2);
 }
